@@ -5,6 +5,6 @@ import * as bodyParser from 'body-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(bodyParser.json({ limit: '200mb' }));
-  await app.listen(5000);
+  await app.listen(process.env.UPLOADS_PORT);
 }
 bootstrap();
