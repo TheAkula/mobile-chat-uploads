@@ -2,25 +2,13 @@ FROM node as base
 
 WORKDIR /app
 
-COPY package*.json .
+COPY package.json .
+COPY yarn.lock .
+COPY dist/uploads /app/dist/uploads
 
-FROM base as dev
-
-RUN npm install
-
-COPY . .
-
-EXPOSE 4000
-
-FROM base as prod
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-RUN npm install
+RUN yarn install
 
 COPY . .
 
-COPY --from=dev /app-uploads/dist /app-uploads/dist
+EXPOSE 5000
 
-CMD ["node", "dist/main"]

@@ -1,0 +1,18 @@
+FROM node as base
+
+WORKDIR /app
+
+COPY package.json .
+COPY tsconfig.json .
+COPY tsconfig.build.json .
+COPY yarn.lock .
+COPY dist/uploads /app/dist/uploads
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+RUN yarn add global @nestjs/cli
+RUN yarn install
+RUN yarn build
+
+COPY . .
